@@ -1,16 +1,36 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+  <div id="app">
+    <h1>My TS App</h1>
+    <p><input type="text" v-model="inputText" /></p>
+    <CharCount :params="charCountParams"></CharCount>
+    <p><button @click="reset()">Reset</button></p>
+  </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import HelloWorld from './components/HelloWorld.vue';
+import CharCount, { CharCountParams } from './components/CharCount.vue';
+
+interface State {
+  inputText: string;
+}
 
 export default defineComponent({
   name: 'App',
-  components: {
-    HelloWorld,
+  components: { CharCount },
+  data: (): State => ({ inputText: '' }),
+  methods: {
+    reset() {
+      this.inputText = '';
+    },
+  },
+  computed: {
+    charCountParams(): CharCountParams {
+      return {
+        inputText: this.inputText,
+        label: 'Count',
+      };
+    },
   },
 });
 </script>
